@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 
 import Profile from './Profile';
+import Repositories from './Repositories';
+import api from '../Utils/api';
 
 class Dashboard extends Component {
 
@@ -40,7 +42,17 @@ class Dashboard extends Component {
   }
 
   goToRepos(){
-    console.log("going to repos")
+    api.getRepos(this.props.userInfo.login)
+      .then((res) => {
+        this.props.navigator.push({
+          component: Repositories,
+          title: 'Repos',
+          passProps: {
+            userInfo: this.props.userInfo,
+            repos: res
+          }
+        });
+      })
   }
 
   goToNotes(){
